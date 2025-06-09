@@ -23,7 +23,7 @@
 </template>
 
 <script setup>
-import { computed, nextTick, onBeforeUnmount, watch } from 'vue'
+import { computed, nextTick, onBeforeUnmount, watch, onMounted } from 'vue'
 import { whenever } from '@vueuse/core'
 
 import { useComments } from '../composables/useComments'
@@ -105,15 +105,26 @@ whenever(commentsAreVisible, () => {
   }
 })
 
-async function loadComments() {
-  let comments = await getAllComments(
-    props.viaResource,
-    props.viaResource ? props.viaResourceId : null
-  )
+onMounted(() => {
+  if (commentsAreVisible.value && !commentsAreLoaded.value) {
+    loadComments()
+  }
+})
 
+async function loadComments() {
   commentsAreLoaded.value = true
 
-  emit('update:comments', comments)
+  try {
+    let comments = await getAllComments(
+      props.viaResource,
+      props.viaResource ? props.viaResourceId : null
+    )
+
+    emit('update:comments', comments)
+  } catch (e) {
+    commentsAreLoaded.value = false
+    throw e
+  }
 }
 
 async function handleCommentDeletedEvent(id) {
