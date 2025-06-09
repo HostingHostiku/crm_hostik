@@ -119,6 +119,11 @@ return [
         'access_type' => 'offline',
 
         /**
+         * OAuth consent prompt
+         */
+        'prompt' => 'consent',
+
+        /**
          * Scopes for OAuth
          */
         'scopes' => ['https://mail.google.com/', 'https://www.googleapis.com/auth/calendar'],

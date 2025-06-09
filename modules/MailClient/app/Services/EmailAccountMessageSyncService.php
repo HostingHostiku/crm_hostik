@@ -255,7 +255,7 @@ class EmailAccountMessageSyncService
                 if (! mb_check_encoding($address['name'], 'UTF-8')) {
                     $address['name'] = mb_convert_encoding($address['name'], 'UTF-8', 'ISO-8859-1');
                 }
-                $address['name'] = preg_replace('/[^\x20-\x7E\xA0-\xFF]/', '', $address['name']); // Remove invalid characters
+                $address['name'] = preg_replace('/[^\x20-\x7E\xA0-\xFF]/u', '', $address['name']); // Remove invalid characters
             }
 
             $message->addresses()->create(array_merge($address, [
