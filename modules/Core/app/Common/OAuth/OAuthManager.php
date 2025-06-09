@@ -126,6 +126,7 @@ class OAuthManager
             'clientSecret' => config('integrations.google.client_secret'),
             'redirectUri' => $redirectUrl ?: url(config('integrations.google.redirect_uri')),
             'accessType' => config('integrations.google.access_type'),
+            'prompt' => config('integrations.google.prompt'),
             'scopes' => config('integrations.google.scopes'),
         ]);
     }
